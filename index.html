@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0e1a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="Luna - Premium AI sekretarica">
+  <title>Luna - AI Sekretarica</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%236366f1'/%3E%3Ctext x='50' y='62' font-size='40' text-anchor='middle' fill='white'%3E🌙%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Wave transition between dark and light -->
+    <div class="wave-transition">
+      <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+        <path fill="currentColor" d="M0,160L48,170.7C96,181,192,203,288,202.7C384,203,480,181,576,165.3C672,149,768,139,864,154.7C960,171,1056,213,1152,213.3C1248,213,1344,171,1392,149.3L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+      </svg>
+    </div>
+
+    <!-- Pages -->
+    <main class="pages">
+      <!-- HOME PAGE -->
+      <section class="page active" id="page-home">
+        <div class="home-dark-section">
+          <header class="home-header">
+            <div class="avatar-section">
+              <div class="avatar">
+                <div class="avatar-inner">
+                  <svg viewBox="0 0 100 100" class="luna-icon">
+                    <defs>
+                      <linearGradient id="lunaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#a78bfa"/>
+                        <stop offset="100%" stop-color="#6366f1"/>
+                      </linearGradient>
+                    </defs>
+                    <circle cx="50" cy="50" r="40" fill="url(#lunaGrad)"/>
+                    <path d="M 60 30 A 25 25 0 1 0 60 70 A 18 18 0 1 1 60 30" fill="#1e1b4b"/>
+                  </svg>
+                  <div class="avatar-pulse"></div>
+                </div>
+              </div>
+              <div class="header-info">
+                <h1 class="app-title">Luna</h1>
+                <p class="app-subtitle">Smart AI <span class="badge-groq" id="groq-badge" style="display:none">⚡ Groq</span> <span class="badge-offline" id="offline-badge">📡 Offline</span></p>
+              </div>
+            </div>
+            <div class="header-actions">
+              <button class="icon-btn" id="theme-toggle" aria-label="Meni">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+              </button>
+              <button class="user-badge" id="user-name-display">Saša</button>
+            </div>
+          </header>
+
+          <div class="search-bar">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" id="global-search" placeholder="Pretraga..." />
+          </div>
+
+          <div class="page-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+
+          <div class="grid-cards">
+            <div class="card card-notes" data-page="notes">
+              <div class="card-icon icon-notes">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                </svg>
+                <span class="card-badge" id="notes-count">0</span>
+              </div>
+              <h3>Beleške</h3>
+            </div>
+
+            <div class="card card-current">
+              <h4 class="card-label">AKTUELNO</h4>
+              <div class="card-event" id="next-event">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                <span>Nema zakazanih obaveza</span>
+              </div>
+            </div>
+
+            <div class="card card-alarms" data-page="alarms">
+              <div class="card-icon icon-alarms">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                </svg>
+              </div>
+              <h3>Alarmi</h3>
+            </div>
+
+            <div class="card-empty"></div>
+          </div>
+        </div>
+
+        <div class="home-light-section">
+          <div class="grid-cards-row2">
+            <div class="card card-tasks" data-page="tasks">
+              <div class="card-icon icon-tasks">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 11l3 3L22 4"/>
+                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                </svg>
+              </div>
+              <div class="card-content">
+                <h3>Zadaci</h3>
+                <p class="card-meta"><span id="tasks-count">0</span> aktivnih</p>
+              </div>
+            </div>
+
+            <div class="card card-planner" data-page="planner">
+              <div class="card-icon icon-planner">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                  <circle cx="8" cy="15" r="1"/>
+                  <circle cx="12" cy="15" r="1"/>
+                  <circle cx="16" cy="15" r="1"/>
+                </svg>
+              </div>
+              <div class="card-content">
+                <h3>Planer</h3>
+                <p class="card-meta">Danas</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="personality-section">
+            <div class="personality-list">
+              <button class="personality-btn active" data-personality="smart">
+                <div class="emoji">🧠</div>
+                <span>Pametna</span>
+              </button>
+              <button class="personality-btn" data-personality="funny">
+                <div class="emoji">😜</div>
+                <span>Šaljiva</span>
+              </button>
+              <button class="personality-btn" data-personality="wise">
+                <div class="emoji">🔮</div>
+                <span>Sveznalica</span>
+              </button>
+              <button class="personality-btn" data-personality="business">
+                <div class="emoji">💼</div>
+                <span>Poslovna</span>
+              </button>
+              <button class="personality-btn" data-personality="friendly">
+                <div class="emoji">❤️</div>
+                <span>Prijateljska</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="mic-section">
+            <button class="mic-button" id="mic-button" aria-label="Glasovna komanda">
+              <div class="mic-ring"></div>
+              <div class="mic-ring mic-ring-2"></div>
+              <div class="mic-core">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                  <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                  <line x1="12" y1="19" x2="12" y2="23"/>
+                  <line x1="8" y1="23" x2="16" y2="23"/>
+                </svg>
+              </div>
+            </button>
+            <p class="mic-hint">DODIRNI I KAŽI KOMANDU</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- NOTES PAGE -->
+      <section class="page" id="page-notes">
+        <header class="page-header">
+          <button class="back-btn" data-page="home">←</button>
+          <h2>Beleške</h2>
+          <button class="add-btn" id="add-note-btn">+</button>
+        </header>
+        <div class="search-bar-inline">
+          <input type="text" id="notes-search" placeholder="Pretraži beleške...">
+        </div>
+        <div class="list-container" id="notes-list">
+          <p class="empty-state">Nema beleški. Dodaj prvu!</p>
+        </div>
+      </section>
+
+      <!-- ALARMS PAGE -->
+      <section class="page" id="page-alarms">
+        <header class="page-header">
+          <button class="back-btn" data-page="home">←</button>
+          <h2>Alarmi</h2>
+          <button class="add-btn" id="add-alarm-btn">+</button>
+        </header>
+        <div class="list-container" id="alarms-list">
+          <p class="empty-state">Nema alarma. Dodaj prvi!</p>
+        </div>
+      </section>
+
+      <!-- TASKS PAGE -->
+      <section class="page" id="page-tasks">
+        <header class="page-header">
+          <button class="back-btn" data-page="home">←</button>
+          <h2>Zadaci</h2>
+          <button class="add-btn" id="add-task-btn">+</button>
+        </header>
+        <div class="filter-tabs">
+          <button class="filter-tab active" data-filter="all">Sve</button>
+          <button class="filter-tab" data-filter="active">Aktivni</button>
+          <button class="filter-tab" data-filter="completed">Završeni</button>
+        </div>
+        <div class="list-container" id="tasks-list">
+          <p class="empty-state">Nema zadataka. Dodaj prvi!</p>
+        </div>
+      </section>
+
+      <!-- CALENDAR/PLANNER PAGE -->
+      <section class="page" id="page-planner">
+        <header class="page-header">
+          <button class="back-btn" data-page="home">←</button>
+          <h2>Planer</h2>
+          <button class="add-btn" id="add-event-btn">+</button>
+        </header>
+        <div class="calendar-container">
+          <div class="calendar-header">
+            <button class="cal-nav" id="cal-prev">‹</button>
+            <h3 id="cal-title">Mesec</h3>
+            <button class="cal-nav" id="cal-next">›</button>
+          </div>
+          <div class="calendar-grid" id="cal-grid"></div>
+        </div>
+        <div class="list-container" id="events-list">
+          <h3 class="section-label">Današnji događaji</h3>
+          <p class="empty-state">Nema događaja za danas.</p>
+        </div>
+      </section>
+
+      <!-- CHAT PAGE -->
+      <section class="page" id="page-chat">
+        <header class="page-header">
+          <button class="back-btn" data-page="home">←</button>
+          <h2>Luna Chat</h2>
+          <button class="add-btn" id="clear-chat-btn" title="Obriši chat">🗑️</button>
+        </header>
+        <div class="chat-messages" id="chat-messages">
+          <div class="chat-message luna">
+            <div class="msg-avatar">🌙</div>
+            <div class="msg-bubble">Zdravo! Ja sam Luna. Kako mogu da ti pomognem?</div>
+          </div>
+        </div>
+        <div class="chat-input-bar">
+          <button class="chat-mic-btn" id="chat-mic-btn">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+              <line x1="12" y1="19" x2="12" y2="23"/>
+              <line x1="8" y1="23" x2="16" y2="23"/>
+            </svg>
+          </button>
+          <input type="text" id="chat-input" placeholder="Pitaj Lunu...">
+          <button class="chat-send-btn" id="chat-send-btn">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- SETTINGS PAGE -->
+      <section class="page" id="page-settings">
+        <header class="page-header">
+          <button class="back-btn" data-page="home">←</button>
+          <h2>Podešavanja</h2>
+        </header>
+
+        <div class="settings-section">
+          <h3 class="section-label">Korisnički profil</h3>
+          <div class="setting-item">
+            <label>Ime</label>
+            <input type="text" id="setting-username" value="Saša">
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h3 class="section-label">AI Konfiguracija</h3>
+          <div class="setting-item">
+            <label>Groq API Ključ</label>
+            <input type="password" id="setting-groq-key" placeholder="gsk_...">
+            <small>Ključ se čuva lokalno u bazi.</small>
+          </div>
+          <div class="setting-item">
+            <button class="btn-secondary" id="test-api-btn">🔌 Test API Connection</button>
+            <p class="api-status" id="api-status"></p>
+          </div>
+          <div class="setting-item">
+            <label>AI Ličnost</label>
+            <select id="setting-personality">
+              <option value="smart">🧠 Pametna</option>
+              <option value="funny">😜 Šaljiva</option>
+              <option value="wise">🔮 Sveznalica</option>
+              <option value="business">💼 Poslovna</option>
+              <option value="friendly">❤️ Prijateljska</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h3 class="section-label">Tema</h3>
+          <div class="setting-item">
+            <label>Režim</label>
+            <select id="setting-theme">
+              <option value="auto">🌓 Auto (sistemska)</option>
+              <option value="light">☀️ Light Mode</option>
+              <option value="dark">🌙 Dark Mode</option>
+              <option value="amoled">⚫ AMOLED Mode</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h3 class="section-label">3D Dizajn Podešavanja</h3>
+          <div class="design-preview" id="design-preview">
+            <div class="preview-card">Pregled</div>
+          </div>
+          <div class="setting-item">
+            <label>Dubina 3D efekta: <span id="val-depth">12</span>px</label>
+            <input type="range" id="setting-depth" min="0" max="30" value="12">
+          </div>
+          <div class="setting-item">
+            <label>Visina elemenata: <span id="val-height">60</span>px</label>
+            <input type="range" id="setting-height" min="40" max="100" value="60">
+          </div>
+          <div class="setting-item">
+            <label>Širina: <span id="val-width">100</span>%</label>
+            <input type="range" id="setting-width" min="80" max="100" value="100">
+          </div>
+          <div class="setting-item">
+            <label>Unutrašnje senke: <span id="val-inset">8</span>px</label>
+            <input type="range" id="setting-inset" min="0" max="20" value="8">
+          </div>
+          <div class="setting-item">
+            <label>Spoljašnje senke: <span id="val-outer">15</span>px</label>
+            <input type="range" id="setting-outer" min="0" max="40" value="15">
+          </div>
+          <div class="setting-item">
+            <label>Intenzitet senki: <span id="val-opacity">50</span>%</label>
+            <input type="range" id="setting-opacity" min="0" max="100" value="50">
+          </div>
+          <div class="setting-item">
+            <label>Glow efekat: <span id="val-glow">20</span>px</label>
+            <input type="range" id="setting-glow" min="0" max="50" value="20">
+          </div>
+          <div class="setting-item">
+            <label>Refleksija: <span id="val-reflection">30</span>%</label>
+            <input type="range" id="setting-reflection" min="0" max="100" value="30">
+          </div>
+          <div class="setting-item">
+            <label>Radius elemenata: <span id="val-radius">20</span>px</label>
+            <input type="range" id="setting-radius" min="0" max="40" value="20">
+          </div>
+          <div class="setting-item">
+            <label>Staklasti efekat: <span id="val-glass">15</span>%</label>
+            <input type="range" id="setting-glass" min="0" max="50" value="15">
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h3 class="section-label">Notifikacije</h3>
+          <div class="setting-item">
+            <button class="btn-secondary" id="enable-notif-btn">🔔 Omogući Push Notifikacije</button>
+          </div>
+          <div class="setting-item">
+            <label>
+              <input type="checkbox" id="setting-voice-notif" checked> Glasovne notifikacije
+            </label>
+          </div>
+          <div class="setting-item">
+            <label>
+              <input type="checkbox" id="setting-voice-greeting" checked> Glasovni pozdrav pri startu
+            </label>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h3 class="section-label">Backup & Restore</h3>
+          <div class="setting-item">
+            <button class="btn-secondary" id="export-btn">📤 Export podataka</button>
+          </div>
+          <div class="setting-item">
+            <button class="btn-secondary" id="import-btn">📥 Import podataka</button>
+            <input type="file" id="import-file" accept=".json" style="display:none">
+          </div>
+          <div class="setting-item">
+            <button class="btn-secondary" id="backup-btn">💾 Sačuvaj backup</button>
+          </div>
+          <div class="setting-item">
+            <button class="btn-danger" id="wipe-btn">🗑️ Obriši sve podatke</button>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h3 class="section-label">Status Panela</h3>
+          <div class="status-grid" id="status-grid">
+            <div class="status-item">
+              <span class="status-label">Internet:</span>
+              <span class="status-value" id="status-internet">⚪ Provera...</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Režim:</span>
+              <span class="status-value" id="status-mode">⚪ Provera...</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Groq API:</span>
+              <span class="status-value" id="status-groq">⚪ Provera...</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Mikrofon:</span>
+              <span class="status-value" id="status-mic">⚪ Provera...</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Zvučnik:</span>
+              <span class="status-value" id="status-speaker">⚪ Provera...</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Baza:</span>
+              <span class="status-value" id="status-db">⚪ Provera...</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Sinhronizacija:</span>
+              <span class="status-value" id="status-sync">⚪ Provera...</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <p class="version-info">Luna PWA v1.0.0 • Made with 🌙</p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom navigation -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" data-page="home">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span>Početna</span>
+      </button>
+      <button class="nav-item" data-page="notes">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+        </svg>
+        <span>Beleške</span>
+      </button>
+      <button class="nav-item" data-page="alarms">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+        <span>Alarmi</span>
+      </button>
+      <button class="nav-item" data-page="tasks">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 11l3 3L22 4"/>
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+        </svg>
+        <span>Zadaci</span>
+      </button>
+      <button class="nav-item" data-page="planner">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        <span>Kalendar</span>
+      </button>
+      <button class="nav-item" data-page="chat">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        <span>Chat</span>
+      </button>
+      <button class="nav-item" data-page="settings">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        <span>Opcije</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- MODALS -->
+  <!-- Add Note Modal -->
+  <div class="modal" id="modal-note">
+    <div class="modal-content">
+      <h3>Nova beleška</h3>
+      <textarea id="note-text" placeholder="Tvoja beleška..." rows="5"></textarea>
+      <div class="form-row">
+        <label>Datum i vreme (opciono):</label>
+        <input type="datetime-local" id="note-datetime">
+      </div>
+      <div class="modal-actions">
+        <button class="btn-secondary" data-close="modal-note">Otkaži</button>
+        <button class="btn-primary" id="save-note">Sačuvaj</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Alarm Modal -->
+  <div class="modal" id="modal-alarm">
+    <div class="modal-content">
+      <h3>Novi alarm</h3>
+      <div class="form-row">
+        <label>Vreme:</label>
+        <input type="time" id="alarm-time" value="08:00">
+      </div>
+      <div class="form-row">
+        <label>Naziv:</label>
+        <input type="text" id="alarm-label" placeholder="npr. Buđenje">
+      </div>
+      <div class="form-row">
+        <label>
+          <input type="checkbox" id="alarm-repeat"> Ponavljaj svaki dan
+        </label>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-secondary" data-close="modal-alarm">Otkaži</button>
+        <button class="btn-primary" id="save-alarm">Postavi</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Task Modal -->
+  <div class="modal" id="modal-task">
+    <div class="modal-content">
+      <h3>Novi zadatak</h3>
+      <div class="form-row">
+        <label>Opis:</label>
+        <textarea id="task-text" placeholder="Šta treba uraditi?" rows="3"></textarea>
+      </div>
+      <div class="form-row">
+        <label>Prioritet:</label>
+        <select id="task-priority">
+          <option value="low">🟢 Nizak</option>
+          <option value="normal" selected>🔵 Normalan</option>
+          <option value="high">🟠 Visok</option>
+          <option value="urgent">🔴 Hitno</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Rok (opciono):</label>
+        <input type="datetime-local" id="task-due">
+      </div>
+      <div class="modal-actions">
+        <button class="btn-secondary" data-close="modal-task">Otkaži</button>
+        <button class="btn-primary" id="save-task">Dodaj</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Event Modal -->
+  <div class="modal" id="modal-event">
+    <div class="modal-content">
+      <h3>Novi događaj</h3>
+      <div class="form-row">
+        <label>Naziv:</label>
+        <input type="text" id="event-title" placeholder="Sastanak, ručak...">
+      </div>
+      <div class="form-row">
+        <label>Datum:</label>
+        <input type="date" id="event-date">
+      </div>
+      <div class="form-row">
+        <label>Vreme (opciono):</label>
+        <input type="time" id="event-time">
+      </div>
+      <div class="modal-actions">
+        <button class="btn-secondary" data-close="modal-event">Otkaži</button>
+        <button class="btn-primary" id="save-event">Dodaj</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alarm Active Modal -->
+  <div class="modal modal-alarm-active" id="modal-alarm-active">
+    <div class="modal-content alarm-active-content">
+      <div class="alarm-pulse">
+        <svg viewBox="0 0 24 24" width="80" height="80" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+      </div>
+      <h2 id="alarm-active-label">Alarm</h2>
+      <p id="alarm-active-time" class="alarm-active-time">--:--</p>
+      <div class="alarm-actions">
+        <button class="btn-secondary" id="snooze-alarm">😴 Odloži 5 min</button>
+        <button class="btn-primary" id="dismiss-alarm">✓ Ugasi</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="db.js"></script>
+  <script src="voice.js"></script>
+  <script src="ai.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

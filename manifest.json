@@ -1,0 +1,42 @@
+{
+  "name": "Luna - AI Sekretarica",
+  "short_name": "Luna",
+  "description": "Premium AI sekretarica sa offline podrškom",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0e1a",
+  "theme_color": "#0a0e1a",
+  "lang": "sr",
+  "dir": "ltr",
+  "categories": ["productivity", "lifestyle", "utilities"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Beleške",
+      "url": "./index.html#notes"
+    },
+    {
+      "name": "Alarmi",
+      "url": "./index.html#alarms"
+    },
+    {
+      "name": "Zadaci",
+      "url": "./index.html#tasks"
+    }
+  ]
+}
